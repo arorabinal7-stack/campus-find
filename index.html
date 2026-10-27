@@ -1,0 +1,749 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campus Find | Lost & Found</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f8f6;
+    color: #193142;
+}
+
+header {
+    background: white;
+    padding: 18px 7%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #dfe9e4;
+    position: sticky;
+    top: 0;
+}
+
+.logo {
+    color: #176b57;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+nav a {
+    text-decoration: none;
+    color: #193142;
+    margin: 0 10px;
+}
+
+button {
+    background: #176b57;
+    color: white;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #21856c;
+}
+
+.hero {
+    padding: 65px 7%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 35px;
+    background: linear-gradient(120deg, #f5f8f7, #dff1e8);
+}
+
+.hero-content {
+    max-width: 600px;
+}
+
+.hero h1 {
+    font-size: 55px;
+    margin: 20px 0;
+}
+
+.hero h1 span {
+    color: #176b57;
+}
+
+.hero p {
+    color: #71818a;
+    line-height: 1.8;
+}
+
+.hero-card {
+    background: white;
+    padding: 25px;
+    border-radius: 18px;
+    width: 340px;
+    box-shadow: 0 10px 35px #19314215;
+}
+
+.hero-card p {
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.stats {
+    display: flex;
+    gap: 15px;
+    padding: 25px 7%;
+}
+
+.stat {
+    flex: 1;
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    border: 1px solid #dfe9e4;
+}
+
+.stat h2 {
+    color: #176b57;
+    margin-bottom: 8px;
+}
+
+section.board {
+    padding: 45px 7%;
+}
+
+.board h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #71818a;
+    margin-bottom: 20px;
+}
+
+.search {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+input, select, textarea {
+    padding: 12px;
+    border: 1px solid #d6e2dc;
+    border-radius: 8px;
+    font: inherit;
+}
+
+.search input {
+    flex: 1;
+    min-width: 0;
+}
+
+.search select {
+    max-width: 220px;
+}
+
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.tab {
+    background: white;
+    color: #176b57;
+    border: 1px solid #d6e2dc;
+}
+
+.tab.active {
+    background: #176b57;
+    color: white;
+}
+
+.items {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.item {
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid #dfe9e4;
+}
+
+.item-image {
+    background: #e4f0e8;
+    text-align: center;
+    padding: 25px;
+    font-size: 50px;
+}
+
+.item-content {
+    padding: 18px;
+}
+
+.item-content h3 {
+    margin-bottom: 10px;
+}
+
+.item-content p {
+    color: #71818a;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 10px 0;
+}
+
+.item-content small {
+    color: #176b57;
+    font-weight: bold;
+}
+
+.how {
+    background: #eaf3ed;
+    padding: 55px 7%;
+}
+
+.steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-top: 25px;
+}
+
+.step {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+}
+
+.step h3 {
+    margin-bottom: 10px;
+}
+
+.step p {
+    color: #71818a;
+    line-height: 1.7;
+}
+
+footer {
+    text-align: center;
+    padding: 25px;
+    background: #142d3a;
+    color: white;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #0009;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    z-index: 10;
+}
+
+.modal-content {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    width: 450px;
+    max-width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-content h2 {
+    margin-bottom: 18px;
+}
+
+.modal-content input,
+.modal-content select,
+.modal-content textarea {
+    width: 100%;
+    margin: 7px 0 13px;
+}
+
+.close {
+    float: right;
+    background: #e8f0eb;
+    color: #193142;
+    padding: 5px 12px;
+}
+
+@media (max-width: 800px) {
+    .hero {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .hero h1 {
+        font-size: 42px;
+    }
+
+    .hero-card {
+        width: 100%;
+    }
+
+    .items {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .steps {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 550px) {
+    nav {
+        display: none;
+    }
+
+    .stats {
+        flex-direction: column;
+    }
+
+    .items {
+        grid-template-columns: 1fr;
+    }
+
+    .search {
+        flex-direction: column;
+    }
+
+    .search select {
+        max-width: none;
+    }
+
+    .tabs {
+        flex-wrap: wrap;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">⌕ Campus Find</div>
+
+    <nav>
+        <a href="#browse">Browse Items</a>
+        <a href="#how">How It Works</a>
+    </nav>
+
+    <button onclick="openForm()">+ Report Item</button>
+</header>
+
+<div class="hero">
+    <div class="hero-content">
+        <p>YOUR CAMPUS LOST & FOUND COMMUNITY</p>
+
+        <h1>Lost something?<br>
+        <span>Let's find it.</span></h1>
+
+        <p>
+            Campus Find helps students report lost belongings
+            and reunite found items with their owners.
+            Everything is organized in one simple place.
+        </p>
+
+        <br>
+        <button onclick="openForm()">Report an Item</button>
+        <a href="#browse">
+            <button style="background:white;color:#176b57">
+                Browse Items
+            </button>
+        </a>
+    </div>
+
+    <div class="hero-card">
+        <h3>Recently Reported</h3>
+        <p>🎧 Wireless Headphones — Library</p>
+        <p>📒 Blue Notebook — Block B</p>
+        <p>🔑 Keyring — Cafeteria</p>
+    </div>
+</div>
+
+<div class="stats">
+    <div class="stat">
+        <h2 id="total">6</h2>
+        <p>Total Reports</p>
+    </div>
+
+    <div class="stat">
+        <h2 id="lost">3</h2>
+        <p>Lost Items</p>
+    </div>
+
+    <div class="stat">
+        <h2 id="found">3</h2>
+        <p>Found Items</p>
+    </div>
+</div>
+
+<section class="board" id="browse">
+    <h2>Campus Community Board</h2>
+    <p class="subtitle">Search for your missing belongings.</p>
+
+    <div class="search">
+        <input id="search" type="text"
+        placeholder="Search item or location...">
+
+        <select id="location">
+            <option value="">All Locations</option>
+            <option>Library</option>
+            <option>Cafeteria</option>
+            <option>Block A</option>
+            <option>Block B</option>
+            <option>Sports Ground</option>
+            <option>Parking Area</option>
+            <option>Auditorium</option>
+        </select>
+    </div>
+
+    <div class="tabs">
+        <button class="tab active" onclick="setFilter('All',this)">
+            All Items
+        </button>
+        <button class="tab" onclick="setFilter('Lost',this)">
+            Lost
+        </button>
+        <button class="tab" onclick="setFilter('Found',this)">
+            Found
+        </button>
+    </div>
+
+    <div class="items" id="items"></div>
+</section>
+
+<section class="how" id="how">
+    <h2>How Campus Find Works</h2>
+
+    <div class="steps">
+        <div class="step">
+            <h3>01. Report Your Item</h3>
+            <p>Enter the item name, location, date and description.</p>
+        </div>
+
+        <div class="step">
+            <h3>02. Browse the Board</h3>
+            <p>Search and filter reports to find a possible match.</p>
+        </div>
+
+        <div class="step">
+            <h3>03. Reunite</h3>
+            <p>Verify ownership and arrange a safe handover.</p>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <h3>Campus Find</h3>
+    <p>Helping students find what matters.</p>
+    <p>© <span id="year"></span> Campus Find</p>
+</footer>
+
+<div class="modal" id="reportModal">
+    <div class="modal-content">
+        <button class="close" onclick="closeForm()">×</button>
+        <h2>Report an Item</h2>
+
+        <form id="reportForm">
+            <label>Report Type</label>
+            <select id="type" required>
+                <option>Lost</option>
+                <option>Found</option>
+            </select>
+
+            <label>Item Name</label>
+            <input id="name" required placeholder="e.g. Black wallet">
+
+            <label>Category</label>
+            <select id="category" required>
+                <option>Electronics</option>
+                <option>Books & Stationery</option>
+                <option>Keys & Cards</option>
+                <option>Bags & Clothing</option>
+                <option>Other</option>
+            </select>
+
+            <label>Campus Location</label>
+            <select id="place" required>
+                <option>Library</option>
+                <option>Cafeteria</option>
+                <option>Block A</option>
+                <option>Block B</option>
+                <option>Sports Ground</option>
+                <option>Parking Area</option>
+                <option>Auditorium</option>
+                <option>Other</option>
+            </select>
+
+            <label>Date</label>
+            <input id="date" type="date" required>
+
+            <label>Description</label>
+            <textarea id="description" required
+            placeholder="Describe the item..."></textarea>
+
+            <button type="submit">Submit Report</button>
+        </form>
+        <p id="message" style="color:#176b57;margin-top:12px"></p>
+    </div>
+</div>
+
+<script>
+const defaultItems = [
+    {
+        id: 1, type: "Found",
+        name: "Wireless Headphones",
+        category: "Electronics",
+        location: "Library",
+        date: "2026-10-26",
+        description: "Black headphones found near study tables.",
+        emoji: "🎧"
+    },
+    {
+        id: 2, type: "Lost",
+        name: "Blue Notebook",
+        category: "Books & Stationery",
+        location: "Block B",
+        date: "2026-10-27",
+        description: "Blue notebook containing lecture notes.",
+        emoji: "📒"
+    },
+    {
+        id: 3, type: "Found",
+        name: "Keyring",
+        category: "Keys & Cards",
+        location: "Cafeteria",
+        date: "2026-10-27",
+        description: "Three keys attached to a green keyring.",
+        emoji: "🔑"
+    },
+    {
+        id: 4, type: "Lost",
+        name: "Steel Water Bottle",
+        category: "Other",
+        location: "Sports Ground",
+        date: "2026-10-25",
+        description: "Silver bottle with a black cap.",
+        emoji: "🧴"
+    },
+    {
+        id: 5, type: "Found",
+        name: "Grey Hoodie",
+        category: "Bags & Clothing",
+        location: "Auditorium",
+        date: "2026-10-24",
+        description: "Grey hoodie found after a campus event.",
+        emoji: "🧥"
+    },
+    {
+        id: 6, type: "Lost",
+        name: "USB Flash Drive",
+        category: "Electronics",
+        location: "Block A",
+        date: "2026-10-26",
+        description: "Small black USB drive.",
+        emoji: "💾"
+    }
+];
+
+let items = [...defaultItems];
+let currentFilter = "All";
+
+try {
+    const saved = JSON.parse(
+        localStorage.getItem("campusFindReports") || "[]"
+    );
+
+    items = [...saved, ...defaultItems.filter(
+        item => !saved.some(savedItem => savedItem.id === item.id)
+    )];
+} catch (error) {
+    console.log("Could not load saved reports.");
+}
+
+function renderItems() {
+    const query = document.getElementById("search")
+        .value.toLowerCase().trim();
+
+    const location = document.getElementById("location").value;
+
+    const filtered = items.filter(item => {
+        const matchesType =
+            currentFilter === "All" || item.type === currentFilter;
+
+        const matchesLocation =
+            !location || item.location === location;
+
+        const searchable = (
+            item.name + " " + item.location + " " +
+            item.category + " " + item.description
+        ).toLowerCase();
+
+        return matchesType && matchesLocation &&
+            searchable.includes(query);
+    });
+
+    const container = document.getElementById("items");
+
+    if (filtered.length === 0) {
+        container.innerHTML =
+            '<div class="empty">No matching items found.</div>';
+    } else {
+        container.innerHTML = filtered.map(item => `
+            <article class="item">
+                <div class="item-image">${item.emoji || "📦"}</div>
+
+                <div class="item-content">
+                    <small>${escapeHTML(item.type.toUpperCase())}</small>
+                    <h3>${escapeHTML(item.name)}</h3>
+
+                    <p>
+                        📍 ${escapeHTML(item.location)}<br>
+                        ${escapeHTML(item.description)}
+                    </p>
+
+                    <button onclick="showDetails(${item.id})">
+                        View Details
+                    </button>
+                </div>
+            </article>
+        `).join("");
+    }
+
+    document.getElementById("total").textContent = items.length;
+    document.getElementById("lost").textContent =
+        items.filter(item => item.type === "Lost").length;
+    document.getElementById("found").textContent =
+        items.filter(item => item.type === "Found").length;
+}
+
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    }[char]));
+}
+
+function setFilter(type, button) {
+    currentFilter = type;
+
+    document.querySelectorAll(".tab").forEach(tab => {
+        tab.classList.remove("active");
+    });
+
+    button.classList.add("active");
+    renderItems();
+}
+
+function openForm() {
+    document.getElementById("reportModal").style.display = "flex";
+    document.getElementById("date").value =
+        new Date().toISOString().slice(0, 10);
+}
+
+function closeForm() {
+    document.getElementById("reportModal").style.display = "none";
+}
+
+function showDetails(id) {
+    const item = items.find(item => item.id === id);
+
+    if (!item) return;
+
+    alert(
+        "Item: " + item.name +
+        "\nStatus: " + item.type +
+        "\nLocation: " + item.location +
+        "\nDate: " + item.date +
+        "\nDescription: " + item.description
+    );
+}
+
+document.getElementById("search")
+    .addEventListener("input", renderItems);
+
+document.getElementById("location")
+    .addEventListener("change", renderItems);
+
+document.getElementById("reportForm")
+    .addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const category = document.getElementById("category").value;
+
+        const icons = {
+            "Electronics": "🎧",
+            "Books & Stationery": "📒",
+            "Keys & Cards": "🔑",
+            "Bags & Clothing": "🎒",
+            "Other": "📦"
+        };
+
+        const newItem = {
+            id: Date.now(),
+            type: document.getElementById("type").value,
+            name: document.getElementById("name").value.trim(),
+            category: category,
+            location: document.getElementById("place").value,
+            date: document.getElementById("date").value,
+            description: document.getElementById("description").value.trim(),
+            emoji: icons[category] || "📦"
+        };
+
+        items.unshift(newItem);
+
+        try {
+            localStorage.setItem(
+                "campusFindReports",
+                JSON.stringify(items.filter(
+                    item => !defaultItems.some(
+                        original => original.id === item.id
+                    )
+                ))
+            );
+        } catch (error) {
+            alert("Could not save the report in this browser.");
+        }
+
+        document.getElementById("message").textContent =
+            "Report added successfully!";
+
+        renderItems();
+
+        setTimeout(() => {
+            closeForm();
+            document.getElementById("reportForm").reset();
+            document.getElementById("message").textContent = "";
+        }, 800);
+    });
+
+document.getElementById("reportModal")
+    .addEventListener("click", function(event) {
+        if (event.target === this) closeForm();
+    });
+
+document.getElementById("year").textContent =
+    new Date().getFullYear();
+
+renderItems();
+</script>
+
+</body>
+</html>
